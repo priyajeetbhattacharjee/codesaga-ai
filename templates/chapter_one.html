@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -18,53 +17,45 @@
 
     <style>
         body {
+            min-height: 100vh;
             background: linear-gradient(
                 135deg,
-                #f3f8ff 0%,
-                #eef2ff 50%,
-                #fff7e6 100%
+                #f3f8ff,
+                #eef2ff,
+                #fff7e6
             );
-            min-height: 100vh;
         }
 
         .comic-panel {
-            background: white;
-            border: 4px solid #212529;
-            border-radius: 8px;
-            box-shadow: 8px 8px 0 #212529;
             height: 100%;
             overflow: hidden;
+            background: white;
+            border: 4px solid #212529;
+            border-radius: 10px;
+            box-shadow: 8px 8px 0 #212529;
         }
 
-        .panel-art {
-            min-height: 260px;
+        .panel-image {
+            width: 100%;
+            height: 310px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .fallback-art {
+            height: 310px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(
-                135deg,
-                #dbeafe,
-                #ede9fe
-            );
             font-size: 90px;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
         }
 
         .speech-bubble {
-            position: relative;
+            padding: 18px;
             background: white;
             border: 3px solid #212529;
             border-radius: 18px;
-            padding: 18px;
-        }
-
-        .speech-bubble::after {
-            content: "";
-            position: absolute;
-            bottom: -18px;
-            left: 35px;
-            border-width: 18px 18px 0 0;
-            border-style: solid;
-            border-color: #212529 transparent transparent transparent;
         }
 
         .quiz-card {
@@ -73,15 +64,16 @@
         }
 
         .answer-option {
+            display: block;
+            padding: 14px;
             border: 2px solid #dee2e6;
             border-radius: 12px;
-            padding: 14px;
             cursor: pointer;
         }
 
         .answer-option:hover {
-            border-color: #0d6efd;
             background: #f3f8ff;
+            border-color: #0d6efd;
         }
     </style>
 </head>
@@ -114,43 +106,51 @@
             </span>
 
             <h1 class="display-5 fw-bold">
-                Chapter 1:
-                
+
                 {% if theme == "cyber_mystery" %}
-                    The Corrupted Vault
+                    Chapter 1: The Corrupted Vault
                 {% elif theme == "fantasy" %}
-                    The Lost Crystal Archive
+                    Chapter 1: The Lost Crystal Archive
                 {% else %}
-                    Emergency in Orbit
+                    Chapter 1: Emergency in Orbit
                 {% endif %}
+
             </h1>
 
             <p class="lead text-secondary">
-                Read the panels carefully. The story contains
-                information needed to answer the checkpoint.
+                Read the story panels carefully before answering
+                the checkpoint.
             </p>
 
         </div>
 
-        <!-- Manga panels -->
         <div class="row g-4 mb-5">
 
-            <!-- Panel 1 -->
             <div class="col-md-6">
 
                 <div class="comic-panel">
 
-                    <div class="panel-art">
+                    {% if theme == "cyber_mystery" %}
 
-                        {% if theme == "cyber_mystery" %}
-                            🔐
-                        {% elif theme == "fantasy" %}
+                        <img
+                            src="{{ url_for('static', filename='images/vault_locked.png') }}"
+                            alt="Cipher standing near the locked digital vault"
+                            class="panel-image"
+                        >
+
+                    {% elif theme == "fantasy" %}
+
+                        <div class="fallback-art">
                             💎
-                        {% else %}
-                            🛰️
-                        {% endif %}
+                        </div>
 
-                    </div>
+                    {% else %}
+
+                        <div class="fallback-art">
+                            🛰️
+                        </div>
+
+                    {% endif %}
 
                     <div class="p-4">
 
@@ -169,32 +169,41 @@
 
                             <p class="fs-5 mb-0">
                                 Cipher discovers four magical crystals
-                                scattered inside the ancient archive.
+                                inside the ancient archive.
                             </p>
 
                         {% else %}
 
                             <p class="fs-5 mb-0">
                                 Cipher detects four navigation signals
-                                inside the damaged spacecraft computer.
+                                inside the spacecraft computer.
                             </p>
 
                         {% endif %}
 
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- Panel 2 -->
             <div class="col-md-6">
 
                 <div class="comic-panel">
 
-                    <div class="panel-art">
-                        🧭
-                    </div>
+                    {% if theme == "cyber_mystery" %}
+
+                        <img
+                            src="{{ url_for('static', filename='images/cipher_hint.png') }}"
+                            alt="Cipher explaining Python lists"
+                            class="panel-image"
+                        >
+
+                    {% else %}
+
+                        <div class="fallback-art">
+                            🧭
+                        </div>
+
+                    {% endif %}
 
                     <div class="p-4">
 
@@ -211,7 +220,7 @@
 
                         </div>
 
-                        <div class="bg-light rounded-3 p-3 mt-4">
+                        <div class="bg-light rounded-3 p-3">
 
                             <code class="fs-5">
                                 codes = [12, 7, 25, 4]
@@ -220,24 +229,20 @@
                         </div>
 
                     </div>
-
                 </div>
-
             </div>
 
         </div>
 
-        <!-- Learning note -->
         <div class="alert alert-primary mb-4">
 
             <strong>Learning note:</strong>
 
             A Python list stores multiple values in one variable.
-            The values are placed between square brackets.
+            List values are placed between square brackets.
 
         </div>
 
-        <!-- Quiz -->
         <div class="card quiz-card shadow-lg">
             <div class="card-body p-4 p-md-5">
 
@@ -259,19 +264,15 @@
 
                 {% if feedback %}
 
-                    {% if feedback_type == "correct" %}
-
-                        <div class="alert alert-success">
-                            {{ feedback }}
-                        </div>
-
-                    {% else %}
-
-                        <div class="alert alert-warning">
-                            {{ feedback }}
-                        </div>
-
-                    {% endif %}
+                    <div class="alert
+                        {% if feedback_type == 'correct' %}
+                            alert-success
+                        {% else %}
+                            alert-warning
+                        {% endif %}
+                    ">
+                        {{ feedback }}
+                    </div>
 
                 {% endif %}
 
@@ -285,13 +286,16 @@
                         <div class="row g-3 mt-2">
 
                             <div class="col-md-6">
-                                <label class="answer-option d-block">
+                                <label class="answer-option">
 
                                     <input
                                         type="radio"
                                         name="answer"
                                         value="parentheses"
                                         class="form-check-input me-2"
+                                        {% if selected_answer == "parentheses" %}
+                                            checked
+                                        {% endif %}
                                     >
 
                                     Parentheses: ( )
@@ -300,13 +304,16 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="answer-option d-block">
+                                <label class="answer-option">
 
                                     <input
                                         type="radio"
                                         name="answer"
                                         value="square_brackets"
                                         class="form-check-input me-2"
+                                        {% if selected_answer == "square_brackets" %}
+                                            checked
+                                        {% endif %}
                                     >
 
                                     Square brackets: [ ]
@@ -315,13 +322,16 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="answer-option d-block">
+                                <label class="answer-option">
 
                                     <input
                                         type="radio"
                                         name="answer"
                                         value="curly_braces"
                                         class="form-check-input me-2"
+                                        {% if selected_answer == "curly_braces" %}
+                                            checked
+                                        {% endif %}
                                     >
 
                                     Curly braces: { }
@@ -330,13 +340,16 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="answer-option d-block">
+                                <label class="answer-option">
 
                                     <input
                                         type="radio"
                                         name="answer"
                                         value="angle_brackets"
                                         class="form-check-input me-2"
+                                        {% if selected_answer == "angle_brackets" %}
+                                            checked
+                                        {% endif %}
                                     >
 
                                     Angle brackets: &lt; &gt;
@@ -359,20 +372,17 @@
 
                     <div class="text-center mt-4">
 
-                        <div class="display-1">
-                            🔓
-                        </div>
-
                         <h3 class="h4">
                             First security layer unlocked!
                         </h3>
 
                         <a
-                        class="btn btn-success btn-lg mt-2"
-                        href="{{ url_for('checkpoint_two') }}"
-                    >
-                        Continue to Checkpoint 2
-                    </a>
+                            class="btn btn-success btn-lg mt-2"
+                            href="{{ url_for('checkpoint_two') }}"
+                        >
+                            Continue to Checkpoint 2
+                        </a>
+
                     </div>
 
                 {% endif %}

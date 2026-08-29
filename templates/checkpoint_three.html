@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -18,41 +17,44 @@
 
     <style>
         body {
+            min-height: 100vh;
             background: linear-gradient(
                 135deg,
-                #f3f8ff 0%,
-                #eef2ff 50%,
-                #fff7e6 100%
+                #f3f8ff,
+                #eef2ff,
+                #fff7e6
             );
-            min-height: 100vh;
         }
 
         .comic-panel {
+            overflow: hidden;
             background: white;
             border: 4px solid #212529;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 8px 8px 0 #212529;
-            overflow: hidden;
         }
 
-        .panel-art {
-            min-height: 300px;
+        .panel-image {
+            width: 100%;
+            height: 100%;
+            min-height: 410px;
+            object-fit: cover;
+        }
+
+        .fallback-art {
+            min-height: 410px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(
-                135deg,
-                #fef3c7,
-                #ddd6fe
-            );
             font-size: 100px;
+            background: linear-gradient(135deg, #fef3c7, #ddd6fe);
         }
 
         .speech-bubble {
-            border: 3px solid #212529;
-            border-radius: 18px;
             padding: 20px;
             background: white;
+            border: 3px solid #212529;
+            border-radius: 18px;
         }
 
         .quiz-card {
@@ -61,10 +63,10 @@
         }
 
         .code-box {
-            background: #212529;
-            color: #ffda6a;
-            border-radius: 12px;
             padding: 22px;
+            color: #ffda6a;
+            background: #212529;
+            border-radius: 12px;
             font-size: 20px;
         }
 
@@ -77,8 +79,8 @@
         }
 
         .answer-option:hover {
-            border-color: #0d6efd;
             background: #f3f8ff;
+            border-color: #0d6efd;
         }
     </style>
 </head>
@@ -120,28 +122,37 @@
 
         </div>
 
-        <!-- Story panel -->
         <div class="comic-panel mb-5">
 
-            <div class="row g-0">
+            <div class="row g-0 align-items-stretch">
 
-                <div class="col-md-5">
+                <div class="col-md-6">
 
-                    <div class="panel-art h-100">
+                    {% if theme == "cyber_mystery" %}
 
-                        {% if theme == "cyber_mystery" %}
-                            🔒
-                        {% elif theme == "fantasy" %}
+                        <img
+                            src="{{ url_for('static', filename='images/vault_locked.png') }}"
+                            alt="The final locked security vault"
+                            class="panel-image"
+                        >
+
+                    {% elif theme == "fantasy" %}
+
+                        <div class="fallback-art">
                             🔮
-                        {% else %}
-                            🌌
-                        {% endif %}
+                        </div>
 
-                    </div>
+                    {% else %}
+
+                        <div class="fallback-art">
+                            🌌
+                        </div>
+
+                    {% endif %}
 
                 </div>
 
-                <div class="col-md-7">
+                <div class="col-md-6">
 
                     <div class="p-4 p-md-5">
 
@@ -153,9 +164,9 @@
 
                             <strong>Cipher:</strong>
 
-                            “Python provides built-in functions that
-                            perform common operations. We can count,
-                            add or find the smallest and largest values.”
+                            “Python provides built-in functions for
+                            common operations. Find the correct function
+                            and the vault will finally open.”
 
                         </div>
 
@@ -164,19 +175,15 @@
                             len(values) → number of items<br>
                             min(values) → smallest value<br>
                             max(values) → largest value<br>
-                            sum(values) → total of all values
+                            sum(values) → total of values
 
                         </div>
 
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
-        <!-- Final question -->
         <div class="card quiz-card shadow-lg">
             <div class="card-body p-4 p-md-5">
 
@@ -193,7 +200,7 @@
                 </div>
 
                 <h2 class="h3 fw-bold">
-                    Which function unlocks the largest security code?
+                    Which function finds the largest security code?
                 </h2>
 
                 <div class="code-box my-4">
@@ -205,19 +212,15 @@
 
                 {% if feedback %}
 
-                    {% if feedback_type == "correct" %}
-
-                        <div class="alert alert-success">
-                            {{ feedback }}
-                        </div>
-
-                    {% else %}
-
-                        <div class="alert alert-warning">
-                            {{ feedback }}
-                        </div>
-
-                    {% endif %}
+                    <div class="alert
+                        {% if feedback_type == 'correct' %}
+                            alert-success
+                        {% else %}
+                            alert-warning
+                        {% endif %}
+                    ">
+                        {{ feedback }}
+                    </div>
 
                 {% endif %}
 
@@ -230,65 +233,29 @@
 
                         <div class="row g-3">
 
-                            <div class="col-md-6">
-                                <label class="answer-option">
+                            {% for option in ["len", "min", "max", "sum"] %}
 
-                                    <input
-                                        type="radio"
-                                        name="answer"
-                                        value="len"
-                                        class="form-check-input me-2"
-                                    >
+                                <div class="col-md-6">
 
-                                    len()
+                                    <label class="answer-option">
 
-                                </label>
-                            </div>
+                                        <input
+                                            type="radio"
+                                            name="answer"
+                                            value="{{ option }}"
+                                            class="form-check-input me-2"
+                                            {% if selected_answer == option %}
+                                                checked
+                                            {% endif %}
+                                        >
 
-                            <div class="col-md-6">
-                                <label class="answer-option">
+                                        {{ option }}()
 
-                                    <input
-                                        type="radio"
-                                        name="answer"
-                                        value="min"
-                                        class="form-check-input me-2"
-                                    >
+                                    </label>
 
-                                    min()
+                                </div>
 
-                                </label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="answer-option">
-
-                                    <input
-                                        type="radio"
-                                        name="answer"
-                                        value="max"
-                                        class="form-check-input me-2"
-                                    >
-
-                                    max()
-
-                                </label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="answer-option">
-
-                                    <input
-                                        type="radio"
-                                        name="answer"
-                                        value="sum"
-                                        class="form-check-input me-2"
-                                    >
-
-                                    sum()
-
-                                </label>
-                            </div>
+                            {% endfor %}
 
                         </div>
 
@@ -304,10 +271,6 @@
                 {% else %}
 
                     <div class="text-center mt-4">
-
-                        <div class="display-1">
-                            ✨
-                        </div>
 
                         <h3 class="h4">
                             All security layers unlocked!

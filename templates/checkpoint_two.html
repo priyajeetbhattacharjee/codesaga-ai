@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -18,52 +17,44 @@
 
     <style>
         body {
+            min-height: 100vh;
             background: linear-gradient(
                 135deg,
-                #f3f8ff 0%,
-                #eef2ff 50%,
-                #fff7e6 100%
+                #f3f8ff,
+                #eef2ff,
+                #fff7e6
             );
-            min-height: 100vh;
         }
 
         .comic-panel {
+            overflow: hidden;
             background: white;
             border: 4px solid #212529;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 8px 8px 0 #212529;
-            overflow: hidden;
         }
 
-        .panel-art {
-            min-height: 280px;
+        .panel-image {
+            width: 100%;
+            height: 100%;
+            min-height: 390px;
+            object-fit: cover;
+        }
+
+        .fallback-art {
+            min-height: 390px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(
-                135deg,
-                #dbeafe,
-                #ede9fe
-            );
             font-size: 90px;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
         }
 
         .speech-bubble {
-            position: relative;
+            padding: 20px;
             background: white;
             border: 3px solid #212529;
             border-radius: 18px;
-            padding: 20px;
-        }
-
-        .speech-bubble::after {
-            content: "";
-            position: absolute;
-            left: 35px;
-            bottom: -18px;
-            border-width: 18px 18px 0 0;
-            border-style: solid;
-            border-color: #212529 transparent transparent transparent;
         }
 
         .quiz-card {
@@ -72,10 +63,10 @@
         }
 
         .code-box {
-            background: #212529;
-            color: #ffda6a;
-            border-radius: 12px;
             padding: 22px;
+            color: #ffda6a;
+            background: #212529;
+            border-radius: 12px;
             font-size: 20px;
         }
     </style>
@@ -109,37 +100,46 @@
             </span>
 
             <h1 class="display-6 fw-bold">
-                The Next Clue
+                Cipher's Next Clue
             </h1>
 
             <p class="lead text-secondary">
-                Cipher has discovered another message inside the list.
+                Every value in a Python list has a numbered position.
             </p>
 
         </div>
 
-        <!-- Teaching panel -->
         <div class="comic-panel mb-5">
 
             <div class="row g-0 align-items-stretch">
 
-                <div class="col-md-5">
+                <div class="col-md-6">
 
-                    <div class="panel-art h-100">
+                    {% if theme == "cyber_mystery" %}
 
-                        {% if theme == "cyber_mystery" %}
-                            🖥️
-                        {% elif theme == "fantasy" %}
+                        <img
+                            src="{{ url_for('static', filename='images/cipher_hint.png') }}"
+                            alt="Cipher providing a Python list hint"
+                            class="panel-image"
+                        >
+
+                    {% elif theme == "fantasy" %}
+
+                        <div class="fallback-art">
                             📜
-                        {% else %}
-                            🛸
-                        {% endif %}
+                        </div>
 
-                    </div>
+                    {% else %}
+
+                        <div class="fallback-art">
+                            🛸
+                        </div>
+
+                    {% endif %}
 
                 </div>
 
-                <div class="col-md-7">
+                <div class="col-md-6">
 
                     <div class="p-4 p-md-5">
 
@@ -153,11 +153,10 @@
 
                             “Every item inside a Python list has a
                             position called an index. Python starts
-                            counting these positions from zero.”
+                            counting from zero.”
 
                         </div>
 
-                        <!-- Different teaching example -->
                         <div class="code-box mt-4">
 
                             tools = ["scanner", "key", "map"]<br>
@@ -166,19 +165,15 @@
                         </div>
 
                         <p class="text-secondary mt-3 mb-0">
-                            In this example, index 0 accesses the first
-                            item: "scanner".
+                            Index 0 accesses the first item:
+                            "scanner".
                         </p>
 
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
-        <!-- Quiz -->
         <div class="card quiz-card shadow-lg">
             <div class="card-body p-4 p-md-5">
 
@@ -195,11 +190,9 @@
                 </div>
 
                 <h2 class="h3 fw-bold">
-                    Complete the code to access the third
-                    security code.
+                    Complete the code to access the third security code.
                 </h2>
 
-                <!-- New quiz example -->
                 <div class="code-box my-4">
 
                     codes = [12, 7, 25, 4]<br>
@@ -209,19 +202,15 @@
 
                 {% if feedback %}
 
-                    {% if feedback_type == "correct" %}
-
-                        <div class="alert alert-success">
-                            {{ feedback }}
-                        </div>
-
-                    {% else %}
-
-                        <div class="alert alert-warning">
-                            {{ feedback }}
-                        </div>
-
-                    {% endif %}
+                    <div class="alert
+                        {% if feedback_type == 'correct' %}
+                            alert-success
+                        {% else %}
+                            alert-warning
+                        {% endif %}
+                    ">
+                        {{ feedback }}
+                    </div>
 
                 {% endif %}
 
@@ -246,7 +235,7 @@
                                 id="answer"
                                 name="answer"
                                 class="form-control form-control-lg"
-                                value="{{ submitted_answer }}"
+                                value="{{ submitted_answer|default('') }}"
                                 placeholder="Enter the missing index"
                                 autocomplete="off"
                                 required
@@ -267,10 +256,6 @@
 
                     <div class="text-center mt-4">
 
-                        <div class="display-1">
-                            🔓
-                        </div>
-
                         <h3 class="h4">
                             Second security layer unlocked!
                         </h3>
@@ -280,11 +265,11 @@
                         </p>
 
                         <a
-                        class="btn btn-success btn-lg"
-                        href="{{ url_for('checkpoint_three') }}"
-                    >
-                        Continue to Final Checkpoint
-                    </a>
+                            class="btn btn-success btn-lg"
+                            href="{{ url_for('checkpoint_three') }}"
+                        >
+                            Continue to Final Checkpoint
+                        </a>
 
                     </div>
 

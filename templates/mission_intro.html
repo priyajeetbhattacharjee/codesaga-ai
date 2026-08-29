@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -18,58 +17,48 @@
 
     <style>
         body {
+            min-height: 100vh;
             background: linear-gradient(
                 135deg,
-                #f3f8ff 0%,
-                #eef2ff 50%,
-                #fff7e6 100%
+                #f3f8ff,
+                #eef2ff,
+                #fff7e6
             );
-            min-height: 100vh;
         }
 
         .story-card {
-            background: white;
             border: 0;
             border-radius: 22px;
             overflow: hidden;
         }
 
-        .story-panel {
-            min-height: 330px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(
-                135deg,
-                #dbeafe,
-                #ede9fe
-            );
+        .story-image {
+            width: 100%;
+            height: 430px;
+            object-fit: cover;
             border: 4px solid #212529;
             border-radius: 12px;
             box-shadow: 8px 8px 0 #212529;
         }
 
-        .story-symbol {
-            font-size: 110px;
-        }
-
-        .character-icon {
-            width: 75px;
-            height: 75px;
+        .fallback-art {
+            min-height: 430px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #e7f1ff;
-            border-radius: 50%;
-            font-size: 38px;
+            font-size: 110px;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
+            border: 4px solid #212529;
+            border-radius: 12px;
+            box-shadow: 8px 8px 0 #212529;
         }
 
         .speech-bubble {
             position: relative;
-            background: #ffffff;
+            padding: 20px;
+            background: white;
             border: 3px solid #212529;
             border-radius: 18px;
-            padding: 20px;
         }
 
         .speech-bubble::after {
@@ -83,16 +72,22 @@
         }
 
         .objective-card {
+            padding: 18px;
             background: #e7f1ff;
             border-left: 5px solid #0d6efd;
             border-radius: 12px;
+        }
+
+        @media (max-width: 767px) {
+            .story-image {
+                height: 300px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Navigation bar -->
     <nav class="navbar bg-primary shadow-sm">
         <div class="container">
 
@@ -103,7 +98,7 @@
                 CodeSaga AI
             </a>
 
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex gap-2">
 
                 <a
                     class="btn btn-light btn-sm"
@@ -120,13 +115,11 @@
                 </a>
 
             </div>
-
         </div>
     </nav>
 
     <main class="container py-5">
 
-        <!-- Page heading -->
         <div class="text-center mb-5">
 
             <span class="badge bg-warning text-dark mb-3">
@@ -148,66 +141,45 @@
 
                 <div class="row g-5 align-items-center">
 
-                    <!-- Visual panel -->
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
 
-                        <div class="story-panel">
+                        {% if theme == "cyber_mystery" %}
 
-                            {% if theme == "cyber_mystery" %}
+                            <img
+                                src="{{ url_for('static', filename='images/cipher_intro.png') }}"
+                                alt="Cipher introducing the cyber mystery mission"
+                                class="story-image"
+                            >
 
-                                <div class="story-symbol">
-                                    🔐
-                                </div>
+                        {% elif theme == "fantasy" %}
 
-                            {% elif theme == "fantasy" %}
+                            <div class="fallback-art">
+                                🏰
+                            </div>
 
-                                <div class="story-symbol">
-                                    🏰
-                                </div>
+                        {% else %}
 
-                            {% else %}
+                            <div class="fallback-art">
+                                🚀
+                            </div>
 
-                                <div class="story-symbol">
-                                    🚀
-                                </div>
-
-                            {% endif %}
-
-                        </div>
-
-                        <p class="text-center text-secondary mt-3 mb-0">
-                            Manga artwork will appear in this panel.
-                        </p>
+                        {% endif %}
 
                     </div>
 
-                    <!-- Story information -->
-                    <div class="col-lg-7">
+                    <div class="col-lg-6">
 
-                        <div class="d-flex align-items-center mb-4">
+                        <span class="badge bg-primary mb-2">
+                            Your Guide
+                        </span>
 
-                            <div class="character-icon me-3">
-                                🧭
-                            </div>
+                        <h2 class="h3 fw-bold">
+                            Cipher
+                        </h2>
 
-                            <div>
-
-                                <span class="badge bg-primary">
-                                    Your Guide
-                                </span>
-
-                                <h2 class="h3 fw-bold mb-0 mt-1">
-                                    Cipher
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Cyber Mystery -->
                         {% if theme == "cyber_mystery" %}
 
-                            <h3 class="display-6 fw-bold">
+                            <h3 class="display-6 fw-bold mt-4">
                                 The Corrupted Vault
                             </h3>
 
@@ -222,15 +194,14 @@
                             </div>
 
                             <p>
-                                Five codes remain inside the damaged system.
+                                Four codes remain inside the damaged system.
                                 To open the vault, you must learn how Python
                                 lists store and organize multiple values.
                             </p>
 
-                        <!-- Fantasy Adventure -->
                         {% elif theme == "fantasy" %}
 
-                            <h3 class="display-6 fw-bold">
+                            <h3 class="display-6 fw-bold mt-4">
                                 The Lost Crystal Archive
                             </h3>
 
@@ -245,15 +216,13 @@
                             </div>
 
                             <p>
-                                Five crystal values remain hidden inside an
-                                enchanted structure. Learn how Python lists
-                                store values and restore the archive.
+                                Learn how Python lists store values and use
+                                your knowledge to restore the archive.
                             </p>
 
-                        <!-- Space Expedition -->
                         {% else %}
 
-                            <h3 class="display-6 fw-bold">
+                            <h3 class="display-6 fw-bold mt-4">
                                 Emergency in Orbit
                             </h3>
 
@@ -261,22 +230,19 @@
 
                                 <p class="lead mb-0">
                                     “Commander {{ student_name }}, our
-                                    navigation computer has failed and the
-                                    spacecraft is drifting off course.”
+                                    navigation computer has failed.”
                                 </p>
 
                             </div>
 
                             <p>
-                                Several navigation signals are stored inside
-                                the system. Learn how Python lists work and
-                                repair the spacecraft before time runs out.
+                                Learn how Python lists work and repair the
+                                spacecraft before it drifts off course.
                             </p>
 
                         {% endif %}
 
-                        <!-- Learning objective -->
-                        <div class="objective-card p-3 mt-4">
+                        <div class="objective-card mt-4">
 
                             <strong class="text-primary">
                                 Learning objective
@@ -290,7 +256,6 @@
 
                         </div>
 
-                        <!-- Start button -->
                         <a
                             class="btn btn-primary btn-lg w-100 mt-4"
                             href="{{ url_for('chapter_one') }}"
@@ -299,9 +264,7 @@
                         </a>
 
                     </div>
-
                 </div>
-
             </div>
         </div>
 

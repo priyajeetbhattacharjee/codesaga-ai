@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | CodeSaga AI</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background: linear-gradient(
+                135deg,
+                #f3f8ff 0%,
+                #eef2ff 50%,
+                #fff7e6 100%
+            );
+            min-height: 100vh;
+        }
+
+        .welcome-card {
+            border: 0;
+            border-radius: 20px;
+            background: linear-gradient(
+                120deg,
+                #0d6efd,
+                #6f42c1
+            );
+        }
+
+        .mission-card {
+            border: 0;
+            border-radius: 18px;
+            transition: transform 0.2s;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar bg-primary shadow-sm">
+        <div class="container">
+
+            <a
+                class="navbar-brand text-white fw-bold"
+                href="{{ url_for('dashboard') }}"
+            >
+                CodeSaga AI
+            </a>
+
+            <a
+                class="btn btn-light btn-sm"
+                href="{{ url_for('logout') }}"
+            >
+                Logout
+            </a>
+
+        </div>
+    </nav>
+
+    <main class="container py-5">
+
+        <!-- Welcome section -->
+        <div class="welcome-card text-white shadow p-4 p-md-5 mb-5">
+
+            <span class="badge bg-warning text-dark mb-3">
+                Student Dashboard
+            </span>
+
+            <h1 class="display-6 fw-bold">
+                Welcome, {{ student_name }}!
+            </h1>
+
+            <p class="lead mb-0">
+                Choose a learning mission and let your code decide
+                what happens next.
+            </p>
+
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+                <h2 class="h3 fw-bold mb-1">
+                    Available Adventures
+                </h2>
+
+                <p class="text-secondary mb-0">
+                    Select a programming module to begin.
+                </p>
+            </div>
+
+            <span class="badge bg-success">
+                1 Mission Available
+            </span>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Available mission -->
+            <div class="col-md-6 col-lg-4">
+
+                <div class="card mission-card shadow-sm h-100">
+                    <div class="card-body p-4">
+
+                        <div class="fs-1 mb-3">
+                            🔐
+                        </div>
+
+                        <span class="badge bg-primary mb-3">
+                            Available
+                        </span>
+
+                        <h3 class="h4 fw-bold">
+                            The Corrupted Vault
+                        </h3>
+
+                        <p class="text-secondary">
+                            Learn Python lists and find the largest
+                            security code to unlock the vault.
+                        </p>
+
+                        <div class="mb-3">
+
+                            <span class="badge bg-light text-dark">
+                                Python
+                            </span>
+
+                            <span class="badge bg-light text-dark">
+                                Lists
+                            </span>
+
+                            <span class="badge bg-success">
+                                Beginner
+                            </span>
+
+                        </div>
+
+                        <button
+                            class="btn btn-primary w-100"
+                            disabled
+                        >
+                            Mission Setup Coming Next
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Future mission -->
+            <div class="col-md-6 col-lg-4">
+
+                <div class="card mission-card shadow-sm h-100">
+                    <div class="card-body p-4">
+
+                        <div class="fs-1 mb-3">
+                            🌐
+                        </div>
+
+                        <span class="badge bg-secondary mb-3">
+                            Locked
+                        </span>
+
+                        <h3 class="h4 fw-bold">
+                            The Network Maze
+                        </h3>
+
+                        <p class="text-secondary">
+                            Navigate a digital maze using loops and
+                            conditional statements.
+                        </p>
+
+                        <button
+                            class="btn btn-outline-secondary w-100"
+                            disabled
+                        >
+                            Complete Mission 1 First
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

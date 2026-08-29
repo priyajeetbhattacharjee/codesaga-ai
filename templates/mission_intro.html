@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Mission Setup | CodeSaga AI</title>
+    <title>Mission Introduction | CodeSaga AI</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -27,37 +27,72 @@
             min-height: 100vh;
         }
 
-        .setup-card {
-            border: 0;
-            border-radius: 20px;
-        }
-
-        .theme-card {
-            display: block;
-            height: 100%;
-            padding: 22px;
+        .story-card {
             background: white;
-            border: 2px solid #dee2e6;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: 0.2s;
+            border: 0;
+            border-radius: 22px;
+            overflow: hidden;
         }
 
-        .theme-card:hover {
-            border-color: #0d6efd;
-            transform: translateY(-3px);
+        .story-panel {
+            min-height: 330px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(
+                135deg,
+                #dbeafe,
+                #ede9fe
+            );
+            border: 4px solid #212529;
+            border-radius: 12px;
+            box-shadow: 8px 8px 0 #212529;
         }
 
-        .btn-check:checked + .theme-card {
-            border-color: #0d6efd;
+        .story-symbol {
+            font-size: 110px;
+        }
+
+        .character-icon {
+            width: 75px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: #e7f1ff;
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+            border-radius: 50%;
+            font-size: 38px;
+        }
+
+        .speech-bubble {
+            position: relative;
+            background: #ffffff;
+            border: 3px solid #212529;
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .speech-bubble::after {
+            content: "";
+            position: absolute;
+            left: 35px;
+            bottom: -18px;
+            border-width: 18px 18px 0 0;
+            border-style: solid;
+            border-color: #212529 transparent transparent transparent;
+        }
+
+        .objective-card {
+            background: #e7f1ff;
+            border-left: 5px solid #0d6efd;
+            border-radius: 12px;
         }
     </style>
 </head>
 
 <body>
 
+    <!-- Navigation bar -->
     <nav class="navbar bg-primary shadow-sm">
         <div class="container">
 
@@ -68,198 +103,207 @@
                 CodeSaga AI
             </a>
 
-            <a
-                class="btn btn-light btn-sm"
-                href="{{ url_for('logout') }}"
-            >
-                Logout
-            </a>
+            <div class="d-flex align-items-center gap-2">
+
+                <a
+                    class="btn btn-light btn-sm"
+                    href="{{ url_for('mission_setup') }}"
+                >
+                    Change Theme
+                </a>
+
+                <a
+                    class="btn btn-outline-light btn-sm"
+                    href="{{ url_for('logout') }}"
+                >
+                    Logout
+                </a>
+
+            </div>
 
         </div>
     </nav>
 
     <main class="container py-5">
 
+        <!-- Page heading -->
         <div class="text-center mb-5">
 
             <span class="badge bg-warning text-dark mb-3">
-                Mission Configuration
+                Mission Introduction
             </span>
 
-            <h1 class="display-6 fw-bold">
-                Prepare Your Adventure
+            <h1 class="display-5 fw-bold">
+                Your Adventure Is Ready
             </h1>
 
             <p class="lead text-secondary">
-                Select how your programming lesson will become a story.
+                {{ module_name }} · {{ theme_name }}
             </p>
 
         </div>
 
-        {% if error %}
+        <div class="card story-card shadow-lg">
+            <div class="card-body p-4 p-md-5">
 
-            <div class="alert alert-danger">
-                {{ error }}
-            </div>
+                <div class="row g-5 align-items-center">
 
-        {% endif %}
+                    <!-- Visual panel -->
+                    <div class="col-lg-5">
 
-        <form
-            method="POST"
-            action="{{ url_for('mission_setup') }}"
-        >
+                        <div class="story-panel">
 
-            <!-- Module -->
-            <div class="card setup-card shadow-sm mb-4">
-                <div class="card-body p-4">
+                            {% if theme == "cyber_mystery" %}
 
-                    <h2 class="h4 fw-bold">
-                        1. Learning Module
-                    </h2>
+                                <div class="story-symbol">
+                                    🔐
+                                </div>
 
-                    <p class="text-secondary">
-                        More programming modules will be added later.
-                    </p>
+                            {% elif theme == "fantasy" %}
 
-                    <input
-                        type="hidden"
-                        name="module"
-                        value="python_lists"
-                    >
+                                <div class="story-symbol">
+                                    🏰
+                                </div>
 
-                    <div class="p-4 bg-primary-subtle rounded-4">
+                            {% else %}
 
-                        <span class="badge bg-primary mb-2">
-                            Available
-                        </span>
+                                <div class="story-symbol">
+                                    🚀
+                                </div>
 
-                        <h3 class="h5">
-                            Python Lists
-                        </h3>
+                            {% endif %}
 
-                        <p class="mb-0">
-                            Learn how to store, read and process multiple
-                            values inside a Python list.
+                        </div>
+
+                        <p class="text-center text-secondary mt-3 mb-0">
+                            Manga artwork will appear in this panel.
                         </p>
 
                     </div>
 
-                </div>
-            </div>
+                    <!-- Story information -->
+                    <div class="col-lg-7">
 
-            <!-- Themes -->
-            <div class="card setup-card shadow-sm mb-4">
-                <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4">
 
-                    <h2 class="h4 fw-bold">
-                        2. Story Theme
-                    </h2>
+                            <div class="character-icon me-3">
+                                🧭
+                            </div>
 
-                    <p class="text-secondary">
-                        The challenge remains educational, but its story
-                        changes according to your selected theme.
-                    </p>
+                            <div>
 
-                    <div class="row g-3">
+                                <span class="badge bg-primary">
+                                    Your Guide
+                                </span>
 
-                        <div class="col-md-4">
+                                <h2 class="h3 fw-bold mb-0 mt-1">
+                                    Cipher
+                                </h2>
 
-                            <input
-                                class="btn-check"
-                                type="radio"
-                                name="theme"
-                                id="cyber-theme"
-                                value="cyber_mystery"
-                                checked
-                            >
-
-                            <label
-                                class="theme-card"
-                                for="cyber-theme"
-                            >
-                                <div class="fs-1">🔐</div>
-
-                                <h3 class="h5 mt-3">
-                                    Cyber Mystery
-                                </h3>
-
-                                <p class="text-secondary mb-0">
-                                    Decode security systems and investigate
-                                    a corrupted digital vault.
-                                </p>
-                            </label>
+                            </div>
 
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- Cyber Mystery -->
+                        {% if theme == "cyber_mystery" %}
 
-                            <input
-                                class="btn-check"
-                                type="radio"
-                                name="theme"
-                                id="fantasy-theme"
-                                value="fantasy"
-                            >
+                            <h3 class="display-6 fw-bold">
+                                The Corrupted Vault
+                            </h3>
 
-                            <label
-                                class="theme-card"
-                                for="fantasy-theme"
-                            >
-                                <div class="fs-1">🏰</div>
+                            <div class="speech-bubble mt-4 mb-5">
 
-                                <h3 class="h5 mt-3">
-                                    Fantasy Adventure
-                                </h3>
-
-                                <p class="text-secondary mb-0">
-                                    Recover a magical archive and defeat
-                                    errors hidden inside ancient code.
+                                <p class="lead mb-0">
+                                    “Welcome, {{ student_name }}. Someone
+                                    has corrupted the security codes
+                                    protecting our digital archive.”
                                 </p>
-                            </label>
+
+                            </div>
+
+                            <p>
+                                Five codes remain inside the damaged system.
+                                To open the vault, you must learn how Python
+                                lists store and organize multiple values.
+                            </p>
+
+                        <!-- Fantasy Adventure -->
+                        {% elif theme == "fantasy" %}
+
+                            <h3 class="display-6 fw-bold">
+                                The Lost Crystal Archive
+                            </h3>
+
+                            <div class="speech-bubble mt-4 mb-5">
+
+                                <p class="lead mb-0">
+                                    “Welcome, {{ student_name }}. The
+                                    kingdom's magical records have been
+                                    scattered across the ancient archive.”
+                                </p>
+
+                            </div>
+
+                            <p>
+                                Five crystal values remain hidden inside an
+                                enchanted structure. Learn how Python lists
+                                store values and restore the archive.
+                            </p>
+
+                        <!-- Space Expedition -->
+                        {% else %}
+
+                            <h3 class="display-6 fw-bold">
+                                Emergency in Orbit
+                            </h3>
+
+                            <div class="speech-bubble mt-4 mb-5">
+
+                                <p class="lead mb-0">
+                                    “Commander {{ student_name }}, our
+                                    navigation computer has failed and the
+                                    spacecraft is drifting off course.”
+                                </p>
+
+                            </div>
+
+                            <p>
+                                Several navigation signals are stored inside
+                                the system. Learn how Python lists work and
+                                repair the spacecraft before time runs out.
+                            </p>
+
+                        {% endif %}
+
+                        <!-- Learning objective -->
+                        <div class="objective-card p-3 mt-4">
+
+                            <strong class="text-primary">
+                                Learning objective
+                            </strong>
+
+                            <p class="mb-0 mt-1">
+                                Understand how Python lists are created,
+                                how they store multiple values and how
+                                individual values can be accessed.
+                            </p>
 
                         </div>
 
-                        <div class="col-md-4">
-
-                            <input
-                                class="btn-check"
-                                type="radio"
-                                name="theme"
-                                id="space-theme"
-                                value="space"
-                            >
-
-                            <label
-                                class="theme-card"
-                                for="space-theme"
-                            >
-                                <div class="fs-1">🚀</div>
-
-                                <h3 class="h5 mt-3">
-                                    Space Expedition
-                                </h3>
-
-                                <p class="text-secondary mb-0">
-                                    Repair your spacecraft's navigation
-                                    system before time runs out.
-                                </p>
-                            </label>
-
-                        </div>
+                        <!-- Start button -->
+                        <a
+                            class="btn btn-primary btn-lg w-100 mt-4"
+                            href="{{ url_for('chapter_one') }}"
+                        >
+                            Start Chapter
+                        </a>
 
                     </div>
 
                 </div>
+
             </div>
-
-            <button
-                type="submit"
-                class="btn btn-primary btn-lg w-100"
-            >
-                Generate Mission Introduction
-            </button>
-
-        </form>
+        </div>
 
     </main>
 

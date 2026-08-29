@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Checkpoint 2 | CodeSaga AI</title>
+    <title>Final Checkpoint | CodeSaga AI</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -36,34 +36,23 @@
         }
 
         .panel-art {
-            min-height: 280px;
+            min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(
                 135deg,
-                #dbeafe,
-                #ede9fe
+                #fef3c7,
+                #ddd6fe
             );
-            font-size: 90px;
+            font-size: 100px;
         }
 
         .speech-bubble {
-            position: relative;
-            background: white;
             border: 3px solid #212529;
             border-radius: 18px;
             padding: 20px;
-        }
-
-        .speech-bubble::after {
-            content: "";
-            position: absolute;
-            left: 35px;
-            bottom: -18px;
-            border-width: 18px 18px 0 0;
-            border-style: solid;
-            border-color: #212529 transparent transparent transparent;
+            background: white;
         }
 
         .quiz-card {
@@ -77,6 +66,19 @@
             border-radius: 12px;
             padding: 22px;
             font-size: 20px;
+        }
+
+        .answer-option {
+            display: block;
+            padding: 14px;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .answer-option:hover {
+            border-color: #0d6efd;
+            background: #f3f8ff;
         }
     </style>
 </head>
@@ -94,7 +96,7 @@
             </a>
 
             <span class="navbar-text text-white">
-                Chapter 1 · {{ theme_name }}
+                Final Checkpoint · {{ theme_name }}
             </span>
 
         </div>
@@ -105,34 +107,34 @@
         <div class="mb-4">
 
             <span class="badge bg-success mb-3">
-                Security Layer 1 Unlocked
+                Two Layers Unlocked
             </span>
 
             <h1 class="display-6 fw-bold">
-                The Next Clue
+                The Final Security Layer
             </h1>
 
             <p class="lead text-secondary">
-                Cipher has discovered another message inside the list.
+                One final decision stands between you and the vault.
             </p>
 
         </div>
 
-        <!-- Teaching panel -->
+        <!-- Story panel -->
         <div class="comic-panel mb-5">
 
-            <div class="row g-0 align-items-stretch">
+            <div class="row g-0">
 
                 <div class="col-md-5">
 
                     <div class="panel-art h-100">
 
                         {% if theme == "cyber_mystery" %}
-                            🖥️
+                            🔒
                         {% elif theme == "fantasy" %}
-                            📜
+                            🔮
                         {% else %}
-                            🛸
+                            🌌
                         {% endif %}
 
                     </div>
@@ -144,31 +146,27 @@
                     <div class="p-4 p-md-5">
 
                         <span class="badge bg-dark mb-3">
-                            Panel 3
+                            Final Panel
                         </span>
 
                         <div class="speech-bubble">
 
                             <strong>Cipher:</strong>
 
-                            “Every item inside a Python list has a
-                            position called an index. Python starts
-                            counting these positions from zero.”
+                            “Python provides built-in functions that
+                            perform common operations. We can count,
+                            add or find the smallest and largest values.”
 
                         </div>
 
-                        <!-- Different teaching example -->
                         <div class="code-box mt-4">
 
-                            tools = ["scanner", "key", "map"]<br>
-                            first_tool = tools[0]
+                            len(values) → number of items<br>
+                            min(values) → smallest value<br>
+                            max(values) → largest value<br>
+                            sum(values) → total of all values
 
                         </div>
-
-                        <p class="text-secondary mt-3 mb-0">
-                            In this example, index 0 accesses the first
-                            item: "scanner".
-                        </p>
 
                     </div>
 
@@ -178,32 +176,30 @@
 
         </div>
 
-        <!-- Quiz -->
+        <!-- Final question -->
         <div class="card quiz-card shadow-lg">
             <div class="card-body p-4 p-md-5">
 
                 <div class="d-flex justify-content-between mb-3">
 
                     <span class="badge bg-primary">
-                        Checkpoint 2
+                        Final Checkpoint
                     </span>
 
                     <span class="text-secondary">
-                        Fill in the blank · 1 point
+                        MCQ · 1 point
                     </span>
 
                 </div>
 
                 <h2 class="h3 fw-bold">
-                    Complete the code to access the third
-                    security code.
+                    Which function unlocks the largest security code?
                 </h2>
 
-                <!-- New quiz example -->
                 <div class="code-box my-4">
 
                     codes = [12, 7, 25, 4]<br>
-                    third_code = codes[___]
+                    largest_code = ______(codes)
 
                 </div>
 
@@ -229,36 +225,78 @@
 
                     <form
                         method="POST"
-                        action="{{ url_for('checkpoint_two') }}"
+                        action="{{ url_for('checkpoint_three') }}"
                     >
 
-                        <div class="mb-3">
+                        <div class="row g-3">
 
-                            <label
-                                for="answer"
-                                class="form-label fw-semibold"
-                            >
-                                Your answer
-                            </label>
+                            <div class="col-md-6">
+                                <label class="answer-option">
 
-                            <input
-                                type="text"
-                                id="answer"
-                                name="answer"
-                                class="form-control form-control-lg"
-                                value="{{ submitted_answer }}"
-                                placeholder="Enter the missing index"
-                                autocomplete="off"
-                                required
-                            >
+                                    <input
+                                        type="radio"
+                                        name="answer"
+                                        value="len"
+                                        class="form-check-input me-2"
+                                    >
+
+                                    len()
+
+                                </label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="answer-option">
+
+                                    <input
+                                        type="radio"
+                                        name="answer"
+                                        value="min"
+                                        class="form-check-input me-2"
+                                    >
+
+                                    min()
+
+                                </label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="answer-option">
+
+                                    <input
+                                        type="radio"
+                                        name="answer"
+                                        value="max"
+                                        class="form-check-input me-2"
+                                    >
+
+                                    max()
+
+                                </label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="answer-option">
+
+                                    <input
+                                        type="radio"
+                                        name="answer"
+                                        value="sum"
+                                        class="form-check-input me-2"
+                                    >
+
+                                    sum()
+
+                                </label>
+                            </div>
 
                         </div>
 
                         <button
                             type="submit"
-                            class="btn btn-primary btn-lg w-100"
+                            class="btn btn-primary btn-lg w-100 mt-4"
                         >
-                            Submit Answer
+                            Submit Final Answer
                         </button>
 
                     </form>
@@ -268,23 +306,19 @@
                     <div class="text-center mt-4">
 
                         <div class="display-1">
-                            🔓
+                            ✨
                         </div>
 
                         <h3 class="h4">
-                            Second security layer unlocked!
+                            All security layers unlocked!
                         </h3>
 
-                        <p class="text-secondary">
-                            Current score: 2 out of 2
-                        </p>
-
                         <a
-                        class="btn btn-success btn-lg"
-                        href="{{ url_for('checkpoint_three') }}"
-                    >
-                        Continue to Final Checkpoint
-                    </a>
+                            class="btn btn-success btn-lg mt-2"
+                            href="{{ url_for('chapter_complete') }}"
+                        >
+                            Reveal the Ending
+                        </a>
 
                     </div>
 

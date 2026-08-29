@@ -81,7 +81,63 @@ def dashboard():
         "dashboard.html",
         student_name=session["student_name"]
     )
+@app.route("/mission/setup", methods=["GET", "POST"])
+def mission_setup():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
 
+    error = None
+
+    if request.method == "POST":
+        selected_module = request.form.get("module")
+        selected_theme = request.form.get("theme")
+
+        allowed_modules = {
+            "python_lists": "Python Lists"
+        }
+
+        allowed_themes = {
+            "cyber_mystery": "Cyber Mystery",
+            "fantasy": "Fantasy Adventure",
+            "space": "Space Expedition"
+        }
+
+        if selected_module not in allowed_modules:
+            error = "Please select an available module."
+
+        elif selected_theme not in allowed_themes:
+            error = "Please select a story theme."
+
+        else:
+            session["module"] = selected_module
+            session["module_name"] = allowed_modules[selected_module]
+
+            session["theme"] = selected_theme
+            session["theme_name"] = allowed_themes[selected_theme]
+
+            return redirect(url_for("mission_intro"))
+
+    return render_template(
+        "mission_setup.html",
+        error=error
+    )
+
+
+@app.route("/mission")
+def mission_intro():
+    if "student_id" not in session:
+        return redirect(url_for("login"))
+
+    if "module" not in session or "theme" not in session:
+        return redirect(url_for("mission_setup"))
+
+    return render_template(
+        "mission_intro.html",
+        student_name=session["student_name"],
+        module_name=session["module_name"],
+        theme=session["theme"],
+        theme_name=session["theme_name"]
+    )
 
 @app.route("/logout")
 def logout():

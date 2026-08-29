@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Mission Setup | CodeSaga AI</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background: linear-gradient(
+                135deg,
+                #f3f8ff 0%,
+                #eef2ff 50%,
+                #fff7e6 100%
+            );
+            min-height: 100vh;
+        }
+
+        .setup-card {
+            border: 0;
+            border-radius: 20px;
+        }
+
+        .theme-card {
+            display: block;
+            height: 100%;
+            padding: 22px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .theme-card:hover {
+            border-color: #0d6efd;
+            transform: translateY(-3px);
+        }
+
+        .btn-check:checked + .theme-card {
+            border-color: #0d6efd;
+            background: #e7f1ff;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar bg-primary shadow-sm">
+        <div class="container">
+
+            <a
+                class="navbar-brand text-white fw-bold"
+                href="{{ url_for('dashboard') }}"
+            >
+                CodeSaga AI
+            </a>
+
+            <a
+                class="btn btn-light btn-sm"
+                href="{{ url_for('logout') }}"
+            >
+                Logout
+            </a>
+
+        </div>
+    </nav>
+
+    <main class="container py-5">
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-warning text-dark mb-3">
+                Mission Configuration
+            </span>
+
+            <h1 class="display-6 fw-bold">
+                Prepare Your Adventure
+            </h1>
+
+            <p class="lead text-secondary">
+                Select how your programming lesson will become a story.
+            </p>
+
+        </div>
+
+        {% if error %}
+
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+        <form
+            method="POST"
+            action="{{ url_for('mission_setup') }}"
+        >
+
+            <!-- Module -->
+            <div class="card setup-card shadow-sm mb-4">
+                <div class="card-body p-4">
+
+                    <h2 class="h4 fw-bold">
+                        1. Learning Module
+                    </h2>
+
+                    <p class="text-secondary">
+                        More programming modules will be added later.
+                    </p>
+
+                    <input
+                        type="hidden"
+                        name="module"
+                        value="python_lists"
+                    >
+
+                    <div class="p-4 bg-primary-subtle rounded-4">
+
+                        <span class="badge bg-primary mb-2">
+                            Available
+                        </span>
+
+                        <h3 class="h5">
+                            Python Lists
+                        </h3>
+
+                        <p class="mb-0">
+                            Learn how to store, read and process multiple
+                            values inside a Python list.
+                        </p>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Themes -->
+            <div class="card setup-card shadow-sm mb-4">
+                <div class="card-body p-4">
+
+                    <h2 class="h4 fw-bold">
+                        2. Story Theme
+                    </h2>
+
+                    <p class="text-secondary">
+                        The challenge remains educational, but its story
+                        changes according to your selected theme.
+                    </p>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-4">
+
+                            <input
+                                class="btn-check"
+                                type="radio"
+                                name="theme"
+                                id="cyber-theme"
+                                value="cyber_mystery"
+                                checked
+                            >
+
+                            <label
+                                class="theme-card"
+                                for="cyber-theme"
+                            >
+                                <div class="fs-1">🔐</div>
+
+                                <h3 class="h5 mt-3">
+                                    Cyber Mystery
+                                </h3>
+
+                                <p class="text-secondary mb-0">
+                                    Decode security systems and investigate
+                                    a corrupted digital vault.
+                                </p>
+                            </label>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <input
+                                class="btn-check"
+                                type="radio"
+                                name="theme"
+                                id="fantasy-theme"
+                                value="fantasy"
+                            >
+
+                            <label
+                                class="theme-card"
+                                for="fantasy-theme"
+                            >
+                                <div class="fs-1">🏰</div>
+
+                                <h3 class="h5 mt-3">
+                                    Fantasy Adventure
+                                </h3>
+
+                                <p class="text-secondary mb-0">
+                                    Recover a magical archive and defeat
+                                    errors hidden inside ancient code.
+                                </p>
+                            </label>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <input
+                                class="btn-check"
+                                type="radio"
+                                name="theme"
+                                id="space-theme"
+                                value="space"
+                            >
+
+                            <label
+                                class="theme-card"
+                                for="space-theme"
+                            >
+                                <div class="fs-1">🚀</div>
+
+                                <h3 class="h5 mt-3">
+                                    Space Expedition
+                                </h3>
+
+                                <p class="text-secondary mb-0">
+                                    Repair your spacecraft's navigation
+                                    system before time runs out.
+                                </p>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                class="btn btn-primary btn-lg w-100"
+            >
+                Generate Mission Introduction
+            </button>
+
+        </form>
+
+    </main>
+
+</body>
+</html>
